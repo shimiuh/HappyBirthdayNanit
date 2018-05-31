@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">HappyBirthdayNanit</string>
+    <string name="app_name">Happy Birthday Nanit</string>
+    <string name="birthday_hint">Birthday</string>
+    <string name="name_hint">Name</string>
 </resources>
