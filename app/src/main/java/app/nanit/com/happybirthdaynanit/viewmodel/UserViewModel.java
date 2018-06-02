@@ -1,5 +1,6 @@
 package app.nanit.com.happybirthdaynanit.viewmodel;
 
+import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import androidx.navigation.ActivityNavigator;
 import app.nanit.com.happybirthdaynanit.model.User;
@@ -37,10 +43,12 @@ public class UserViewModel extends ViewModel {
     public View.OnFocusChangeListener mRemoveKeyboard = (v, hasFocus) -> {
         if(hasFocus){
             Utils.showKeyboard(v, false);
+            showDatePicker(v.getContext());
         }
     };
 
     public View.OnClickListener mOnSetBirthdayListener = v -> {
+        showDatePicker(v.getContext());
         Log.d("shimi","in mOnSetBirthdayListener");
     };
 
@@ -64,5 +72,21 @@ public class UserViewModel extends ViewModel {
 
     public void fetchData(Context context) {
         getUserLiveData().loadSaved(context);
+    }
+
+    private void showDatePicker(Context context) {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_DeviceDefault_Dialog,
+                (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
+            GregorianCalendar gc = new GregorianCalendar(selectedYear,selectedMonth,selectedDayOfMonth);
+            getUserLiveData().getUser().setBirthDate(gc.getTimeInMillis());
+            getUserLiveData().save(context);
+        }, year, month, day);
+
+        dialog.getDatePicker().setMaxDate( new Date().getTime() );
+        dialog.show();
     }
 }

@@ -7,7 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 import app.nanit.com.happybirthdaynanit.R;
 import app.nanit.com.happybirthdaynanit.databinding.ActivityHappyBirthdayEditInfoBinding;
@@ -44,5 +48,19 @@ public class HappyBirthdayEditInfoActivity extends AppCompatActivity implements 
     public void onChanged(@Nullable User user) {
         Log.d("shimi"," in onUserDataChanged user = "+user.getName()+"  "+user.getBirthDate()+"  "+user.getImageUri());
         mDataBinder.editInfoUserName.setText(user.getName());
+        setDate(user);
+    }
+
+    private void setDate(User user) {
+        if(user.getBirthDate() == null){
+            mDataBinder.editInfoBirthday.setText("");
+            return;
+        }
+
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(user.getBirthDate());
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        mDataBinder.editInfoBirthday.setText(date);
+
     }
 }
