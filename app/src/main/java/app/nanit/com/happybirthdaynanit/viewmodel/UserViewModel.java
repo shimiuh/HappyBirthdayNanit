@@ -65,11 +65,6 @@ public class UserViewModel extends ViewModel {
     public View.OnClickListener mShowBirthdayScreen = v -> {
         getUserLiveData().save(v.getContext());
         Log.d("shimi","in mShowBirthdayScreen");
-//        //Navigation.findNavController(v).
-//                new ActivityNavigator(v.getContext())
-//                        .createDestination()
-//                .setIntent(new Intent(v.getContext(), HappyBirthdayEditInfoActivity.class))
-//                    .navigate(null, null);
     };
 
 
