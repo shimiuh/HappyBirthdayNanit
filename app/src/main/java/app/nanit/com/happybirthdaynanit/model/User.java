@@ -1,5 +1,10 @@
 package app.nanit.com.happybirthdaynanit.model;
 
+import android.text.format.DateFormat;
+
+import java.util.Calendar;
+import java.util.Locale;
+
 public class User {
 
     private String mName;
@@ -28,5 +33,15 @@ public class User {
 
     public void setImageUri(String imageUri) {
         this.mImageUri = imageUri;
+    }
+
+    public String getFormattedBirthDate() {
+        if(getBirthDate() == null){
+            return "";
+        }
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(getBirthDate());
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
     }
 }
