@@ -4,23 +4,21 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
+import app.nanit.com.happybirthdaynanit.databinding.ActivityHappyBirthdayShareBinding;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import app.nanit.com.happybirthdaynanit.R;
-import app.nanit.com.happybirthdaynanit.databinding.ActivityHappyBirthdayEditInfoBinding;
 import app.nanit.com.happybirthdaynanit.model.User;
-import app.nanit.com.happybirthdaynanit.viewmodel.EditInfoViewModel;
+import app.nanit.com.happybirthdaynanit.viewmodel.ShareViewModel;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
-public class HappyBirthdayEditInfoActivity extends AppCompatActivity implements Observer<User> {
+public class HappyBirthdayShareActivity extends AppCompatActivity implements Observer<User> {
 
-    private ActivityHappyBirthdayEditInfoBinding mDataBinder;
-    private EditInfoViewModel mViewModel;
+    private ShareViewModel mViewModel;
+    private ActivityHappyBirthdayShareBinding mDataBinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +29,23 @@ public class HappyBirthdayEditInfoActivity extends AppCompatActivity implements 
     private void initBinding() {
 
         mDataBinder = DataBindingUtil.setContentView(
-                this, R.layout.activity_happy_birthday_edit_info);
-        mViewModel = ViewModelProviders.of(this).get(EditInfoViewModel.class);
-        mDataBinder.setEditInfoViewModel(mViewModel);
+                this, R.layout.activity_happy_birthday_share);
+        mViewModel = ViewModelProviders.of(this).get(ShareViewModel.class);
+        mDataBinder.setShareInfoViewModel(mViewModel);
         mViewModel.getUserLiveData().observe(this,this);
+        mViewModel.fetchData(this);
         setImageRetrievable();
     }
 
-    @Override
-    protected void onResume() {
-        mViewModel.fetchData(this);
-        super.onResume();
-    }
-
     private void setImageRetrievable() {
-        mDataBinder.editInfoImageParent.setOnClickListener(v -> {
+        mDataBinder.shareImage.setOnClickListener(v -> {
         EasyImage.openChooserWithGallery(this, "Pick source",0);
+        });
+        mDataBinder.shareCamera.setOnClickListener(v -> {
+            EasyImage.openChooserWithGallery(this, "Pick source",0);
+        });
+        mDataBinder.shareBack.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 
@@ -67,14 +66,6 @@ public class HappyBirthdayEditInfoActivity extends AppCompatActivity implements 
             return;
         }
         mViewModel.onChanged(user);
-        if(user.getName() != null) {
-            mDataBinder.editInfoUserName.setText(user.getName());
-        }
-        if(user.getImageUri() != null) {
-            mDataBinder.editInfoImage.setImageURI(user.getImageUri());
-        }
-        mDataBinder.editInfoBirthday.setText(user.getFormattedBirthDate());
         mDataBinder.invalidateAll();
     }
-
 }

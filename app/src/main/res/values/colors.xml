@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorElephantBG">#F9F0D7</color>
+    <color name="colorFoxBG">#C5E8DF</color>
+    <color name="colorPelicanBG">#DAF1F6</color>
 </resources>

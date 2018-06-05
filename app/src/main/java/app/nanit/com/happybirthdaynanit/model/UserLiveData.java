@@ -14,52 +14,49 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
+import app.nanit.com.happybirthdaynanit.R;
+import app.nanit.com.happybirthdaynanit.utils.Utils;
+
 public class UserLiveData extends MutableLiveData<User> {
 
     private static final String USER_KEY = "USER_KEY";
-    private final User mUser;
 
 
-    public UserLiveData(){
-        mUser = new User();
+    public UserLiveData (){
+        setValue(new User());
     }
 
     public User getUser() {
-        return mUser;
+        return getValue();
     }
 
 
-    private void setUser(User user) {
-        getMainHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                setValue(user);
-            }
-        });
-
+    public void setUser(User user) {
+        postValue(user);
     }
 
     public void save(final Context context){
 
-        getBackgroundHandler().postDelayed(() -> {
+
+        getBackgroundHandler().post(() -> {
             SharedPreferences sharedPref = context.getSharedPreferences(context.getPackageName(),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(USER_KEY, toGsonString(mUser));
+            editor.putString(USER_KEY, toGsonString(getValue()));
             editor.commit();
-            setUser(fromGsonString(sharedPref.getString(USER_KEY, "")));
-        },100);
+            setUser(getValue());
+        });
 
     }
 
     public void loadSaved(final Context context){
 
-        getBackgroundHandler().postDelayed(() -> {
+        getBackgroundHandler().post(() -> {
             SharedPreferences sharedPref = context.getSharedPreferences(context.getPackageName(),Context.MODE_PRIVATE);
             User user = fromGsonString(sharedPref.getString(USER_KEY, ""));
             if(user != null) {
                 setUser(user);
             }
-        },100);
+        });
 
     }
 

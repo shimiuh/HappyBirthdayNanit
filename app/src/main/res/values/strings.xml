@@ -3,4 +3,6 @@
     <string name="birthday_hint">Birthday</string>
     <string name="name_hint">Name</string>
     <string name="show_birthday">Show birthday screen</string>
+    <string name="share">Share the news</string>
+    <string name="shear_name">Today %s is</string>
 </resources>

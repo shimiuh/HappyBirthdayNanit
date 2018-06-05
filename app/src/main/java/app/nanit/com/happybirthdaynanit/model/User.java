@@ -1,6 +1,8 @@
 package app.nanit.com.happybirthdaynanit.model;
 
+import android.net.Uri;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -8,8 +10,8 @@ import java.util.Locale;
 public class User {
 
     private String mName;
-    private Long mBirthDate;
-    private String mImageUri;
+    private long   mBirthDate = 0;
+    private String mImageUri = null;
 
     public String getName() {
         return mName;
@@ -27,16 +29,23 @@ public class User {
         this.mBirthDate = birthDate;
     }
 
-    public String getImageUri() {
+    public String getImageUriString() {
         return mImageUri;
     }
 
-    public void setImageUri(String imageUri) {
+    public Uri getImageUri() {
+        Uri uri = null;
+        if(getImageUriString() != null){
+            uri = Uri.parse(getImageUriString());
+        }
+        return uri;
+    }
+    public void setImageUriString(String imageUri) {
         this.mImageUri = imageUri;
     }
 
     public String getFormattedBirthDate() {
-        if(getBirthDate() == null){
+        if(getBirthDate() == null || getBirthDate() == 0){
             return "";
         }
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);

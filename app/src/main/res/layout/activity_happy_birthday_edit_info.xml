@@ -10,8 +10,8 @@
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
         <variable
-            name="userViewModel"
-            type="app.nanit.com.happybirthdaynanit.viewmodel.UserViewModel" />
+            name="editInfoViewModel"
+            type="app.nanit.com.happybirthdaynanit.viewmodel.EditInfoViewModel" />
     </data>
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:hint="@string/name_hint"
-            android:addTextChangedListener="@{userViewModel.mWatcher}"
+            android:addTextChangedListener="@{editInfoViewModel.mWatcher}"
             android:inputType="textPersonName"/>
 
         <TextView
@@ -38,13 +38,13 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:setOnFocusChangeListener="@{userViewModel.mRemoveKeyboard}"
-            android:onClick="@{userViewModel.mOnSetBirthdayListener}"
+            android:setOnFocusChangeListener="@{editInfoViewModel.mRemoveKeyboard}"
+            android:onClick="@{editInfoViewModel.mOnSetBirthdayListener}"
             style="@android:style/Widget.EditText"
             android:hint="@string/birthday_hint"/>
 
 
-        <!--android:onClick="@{userViewModel.mImageClickListener}"-->
+        <!--android:onClick="@{editInfoViewModel.mImageClickListener}"-->
         <FrameLayout
             android:id="@+id/edit_info_image_parent"
             android:layout_width="wrap_content"
@@ -79,7 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:onClick="@{userViewModel.mShowBirthdayScreen}"
+            android:onClick="@{editInfoViewModel.mShowBirthdayScreen}"
+            android:setEnabled="@{editInfoViewModel.mCanShowBirthdayScreen}"
             android:text="@string/show_birthday"/>
 
     </LinearLayout>
